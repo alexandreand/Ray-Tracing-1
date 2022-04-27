@@ -3,18 +3,26 @@
  * @file parser.h
  */
 
-#include "paramset.h"
-#include "parser.h"
+#include <optional>
+#include <vector>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+// #include "paramset.h"
+// #include "parser.h"
+// #include "rt3.h"
 #include "api.h"
-#include "rt3.h"
+#include "tinyxml2.h"
 
 // === Function Implementation
 
 namespace rt3 {
 
-using rt3::Point3f;
-using rt3::Vector3f;
-using rt3::Vector3i;
+// using rt3::Point3f;
+// using rt3::Vector3f;
+// using rt3::Vector3i;
 
 /// This is the entry function for the parsing process.
 void parse( const char* scene_file_name )
@@ -51,14 +59,14 @@ void parse_tags(  tinyxml2::XMLElement *p_element, int level )
     {
         // Convert the attribute name to lowecase before testing it.
         auto tag_name = CSTR_LOWERCASE( p_element->Value() );
-        clog << "\n"<< setw(level*3) << "" << "***** Tag id is `" << tag_name << "`, at level " << level << std::endl;
+        std::clog << "\n"<< setw(level*3) << "" << "***** Tag id is `" << tag_name << "`, at level " << level << std::endl;
 
         // Big switch for each possible RT3 tag type.
         if ( tag_name == "camera" )
         {
             ParamSet ps;
             // List of parameters that might be defined inside the camera's tag.
-            vector<std::pair<param_type_e, string>> param_list
+            std::vector<std::pair<param_type_e, std::string>> param_list
             {
                 { param_type_e::STRING   , "type"             },
                 // Legacy parameters BEGIN.
@@ -82,7 +90,7 @@ void parse_tags(  tinyxml2::XMLElement *p_element, int level )
         else if ( tag_name == "background" )
         {
             ParamSet ps;
-            vector<std::pair<param_type_e, string>> param_list
+            std::vector<std::pair<param_type_e, std::string>> param_list
             {
                 { param_type_e::STRING  , "type"        },
                 { param_type_e::STRING  , "filename"    }, // Texture file name.
@@ -100,7 +108,7 @@ void parse_tags(  tinyxml2::XMLElement *p_element, int level )
         else if ( tag_name == "film" )
         {
             ParamSet ps;
-            vector<std::pair<param_type_e, string>> param_list
+            std::vector<std::pair<param_type_e, std::string>> param_list
             {
                 { param_type_e::STRING   , "type"        },
                 { param_type_e::STRING   , "filename"    },
@@ -117,7 +125,7 @@ void parse_tags(  tinyxml2::XMLElement *p_element, int level )
         else if ( tag_name == "integrator" )
         {
             ParamSet ps;
-            vector<std::pair<param_type_e, string>> param_list
+             std::vector<std::pair<param_type_e, std::string>> param_list
             {
                 { param_type_e::STRING , "type"      },
                     { param_type_e::COLOR  , "near_color"},
@@ -135,7 +143,7 @@ void parse_tags(  tinyxml2::XMLElement *p_element, int level )
         else if ( tag_name == "lookat" )
         {
             ParamSet ps;
-            vector<std::pair<param_type_e, string>> param_list
+             std::vector<std::pair<param_type_e,  std::string>> param_list
             {
                 { param_type_e::POINT3F, "look_from" },
                 { param_type_e::POINT3F, "look_at"   },
@@ -174,7 +182,7 @@ void parse_tags(  tinyxml2::XMLElement *p_element, int level )
  * @param ps_out The `ParamSet` object we need to fill in with parameter information extracted from the XML element.
  */
 void parse_parameters( tinyxml2::XMLElement * p_element,
-        const vector<std::pair<param_type_e, string>> param_list, ParamSet *ps_out )
+        const std::vector<std::pair<param_type_e, std::string>> param_list, ParamSet *ps_out )
 {
     //std::clog << "parse_parameters(): p_element = " << p_element << endl;
 
@@ -263,7 +271,7 @@ void parse_parameters( tinyxml2::XMLElement * p_element,
  * a Point3f{1,2,3}.
  */
 template < typename BASIC, typename COMPOSITE >
-bool parse_single_COMPOSITE_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSet* ps, string att_key )
+bool parse_single_COMPOSITE_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSet* ps, std::string att_key )
 {
     // Attribute() returns the value of the attribute as a const char *, or nullptr if such attribute does not exist.
     const char* att_value_cstr = p_element->Attribute( att_key.c_str() );
@@ -328,7 +336,7 @@ bool parse_single_COMPOSITE_attrib( tinyxml2::XMLElement *p_element, rt3::ParamS
  * \return `true` if the parsing goes smoothly, `false` otherwise.
  */
 template < typename BASIC, typename COMPOSITE, int COMPOSITE_SIZE >
-bool parse_array_COMPOSITE_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSet* ps, string att_key )
+bool parse_array_COMPOSITE_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSet* ps, std::string att_key )
 {
     // Attribute() returns the value of the attribute as a const char *, or nullptr if such attribute does not exist.
     const char* att_value_cstr = p_element->Attribute( att_key.c_str() );
@@ -387,7 +395,7 @@ bool parse_array_COMPOSITE_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSe
 }
 
 template < typename T >
-bool parse_array_BASIC_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSet* ps, string att_key )
+bool parse_array_BASIC_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSet* ps, std::string att_key )
 {
     // Attribute() returns the value of the attribute as a const char *, or nullptr if such attribute does not exist.
     const char* att_value_cstr = p_element->Attribute( att_key.c_str() );
@@ -421,7 +429,7 @@ bool parse_array_BASIC_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSet* p
 
 /// Parse the XML element `p_element` looking for an attribute `att_key` and extract one or more values into the `ParamSet` `ps`.
 template < typename T >
-bool parse_single_BASIC_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSet* ps, string att_key )
+bool parse_single_BASIC_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSet* ps, std::string att_key )
 {
     // Test whether the att_key exists. Attribute() returns the value of the attribute,
     // as a const char *, or nullptr if such attribute does not exist.
@@ -446,10 +454,10 @@ bool parse_single_BASIC_attrib( tinyxml2::XMLElement *p_element, rt3::ParamSet* 
 }
 
 template <typename T>
-std::optional< std::vector< T > > read_array( tinyxml2::XMLElement *p_element, const string& att_key )
+std::optional< std::vector< T > > read_array( tinyxml2::XMLElement *p_element, const std::string& att_key )
 {
     // outgoing list of values retrieved from the XML doc.
-    vector<T> vec;
+     std::vector<T> vec;
     // C-style string that will store the attributes read from the XML doc.
     const char *value_cstr{nullptr};
     // Retrieve the string value into the `value_str` C-style string.
@@ -460,7 +468,7 @@ std::optional< std::vector< T > > read_array( tinyxml2::XMLElement *p_element, c
         return std::nullopt;
 
     // Separate individual BASIC elements as tokens.
-    string str( value_cstr );
+    std::string str( value_cstr );
     std::stringstream tokenizer( str );
     std::vector< std::string > tokens;
     tokens.insert( tokens.begin(), std::istream_iterator< std::string >( tokenizer ), std::istream_iterator< std::string >( ) );
@@ -488,7 +496,7 @@ std::optional< std::vector< T > > read_array( tinyxml2::XMLElement *p_element, c
 }
 
 template <typename T>
-std::optional<T> read_single_value( tinyxml2::XMLElement *p_element, const string& att_key )
+std::optional<T> read_single_value( tinyxml2::XMLElement *p_element, const std::string& att_key )
 {
     // C-style string that will store the attributes read from the XML doc.
     const char *value_cstr;
@@ -496,7 +504,7 @@ std::optional<T> read_single_value( tinyxml2::XMLElement *p_element, const strin
     p_element->QueryStringAttribute( att_key.c_str(), &value_cstr );
 
     // Separate individual BASIC elements as tokens.
-    string str( value_cstr );
+    std::string str( value_cstr );
     // outgoing value retrieved from the XML doc.
     T value;
     // Convert string to the BASIC type and add it to the outgoing vector.
