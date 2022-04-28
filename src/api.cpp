@@ -1,14 +1,15 @@
-#include "../include/api.c"
+#include "../include/api.h"
 
-int render(){
+int render()
+{
 	auto h = camera.film.width();
 	auto h = camera.film.height();
 
 	for (int j = 0; j < h; ++j)
 	{
-		for (int  i = 0; i < w; ++i)
+		for (int i = 0; i < w; ++i)
 		{
-			auto color = background.sample(float(i)/float(w), float(j)/float(h));
+			auto color = background.sample(float(i) / float(w), float(j) / float(h));
 			camera.film.add(Point2{i, j}, color);
 		}
 	}
