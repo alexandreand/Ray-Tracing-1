@@ -1,19 +1,37 @@
+#include "Pixel.h"
+#include "Film.h"
+
+#include <vector>
+#include <memory>
+#include <string>
 
 
-class Film {
-
+Film::Film(int rows, int cols){
+    this->buffer =  new Pixel*[width];
+    for (int row = 0; row < rows; row++)
+        this->buffer[row] = new Pixel[cols];
 };
 
+Film::~Film(){
+    for (int row = 0; row < width; row++)
+        free(buffer[row]);
+    free(buffer);
+};
 
-class Pixel {
-    private:
-        unsigned short int red, green, blue;
+void Film::setPixel(int x, int y, Pixel* pixel) {
+    buffer[x][y] = *pixel;
+};
 
-    public:
-        Pixel::Pixel(unsigned char r, unsigned char g, unsigned char b){
-            red = r;
-            green = g;
-            blue = b;
+std::string Film::toString(){
+    std::string text = "";
+    for (int row = 0; row < width; row++){
+        for (int col = 0; col < height; col ++){
+            text += buffer[row][height].toString() + "\n";
         }
+    }
+    return text;
+};
 
+Pixel* Film::operator[](int x){
+    return buffer[x];
 };

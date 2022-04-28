@@ -22,7 +22,7 @@ class Pixel {
         void setGreen(double g);
         void setBlue(double b);
 
-        std::string getString();
+        std::string toString();
 
         Pixel& operator*=(const double p);
 

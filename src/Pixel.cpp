@@ -1,4 +1,4 @@
-#include "Pixel.h"
+#include "../include/Pixel.h"
 #include <string>
 #include <cmath>
 
@@ -40,7 +40,7 @@ void Pixel::setBlue(double b) {
 };
 
 
-std::string Pixel::getString(){
+std::string Pixel::toString(){
     std::string red = std::to_string(static_cast<int>(this->red));
     std::string green = std::to_string(static_cast<int>(this->green));
     std::string blue = std::to_string(static_cast<int>(this->blue));
