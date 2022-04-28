@@ -1,3 +1,4 @@
+#include "pixel.h"
 
 class Background
 {

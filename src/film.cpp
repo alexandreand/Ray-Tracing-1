@@ -10,12 +10,14 @@ Film::Film(int rows, int cols){
     this->buffer =  new Pixel*[width];
     for (int row = 0; row < rows; row++)
         this->buffer[row] = new Pixel[cols];
+    this->height = rows; 
+    this->width = cols;
 };
 
 Film::~Film(){
     for (int row = 0; row < width; row++)
-        free(buffer[row]);
-    free(buffer);
+        delete buffer[row];
+    delete buffer;
 };
 
 void Film::setPixel(int x, int y, Pixel* pixel) {

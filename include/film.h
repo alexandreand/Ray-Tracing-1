@@ -1,12 +1,11 @@
-#include "Pixel.h"
+#include "pixel.h"
 
 #include <vector>
 #include <memory>
 #include <string>
 
-#ifndef FILM
-#define FILM
 class Film {
+
     private:
         int width;
         int height;
@@ -23,7 +22,4 @@ class Film {
 
         Pixel* operator[](int x);
 
-
 };
-
-#endif
