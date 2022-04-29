@@ -4,22 +4,25 @@
 #include <memory>
 #include <string>
 
-class Film {
+class Film
+{
 
-    private:
-        int width;
-        int height;
-        Pixel** buffer;
+private:
+    int width;
+    int height;
+    Pixel **buffer;
 
-    public:
-        // Constructor
-        Film(int width, int height);
-        ~Film();
+public:
+    // Constructor
+    Film(int width, int height);
+    ~Film();
 
-        void setPixel(int x, int y, Pixel* pixel);
+    void setPixel(int x, int y, Pixel *pixel);
+    void write_image();
+    int getWidth();
+    int getHeight();
 
-        std::string toString();
+    std::string toString();
 
-        Pixel* operator[](int x);
-
+    Pixel *operator[](int x);
 };
