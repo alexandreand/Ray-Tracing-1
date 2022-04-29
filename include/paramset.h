@@ -1,6 +1,9 @@
 #include <string>
 #include <map>
 
+#ifndef PARAMSET
+#define PARAMSET
+
 class ParamSet {
 
     private:
@@ -19,3 +22,5 @@ class ParamSet {
         void setAttribute(std::string name, std::string value);
 
 };
+
+#endif

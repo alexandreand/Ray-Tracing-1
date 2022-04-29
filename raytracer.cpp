@@ -1,7 +1,8 @@
 #include <iostream>
+#include <cstring>
 #include <string>
-#include <stdexcept>
-#include "include/Pixel.h"
+#include "include/parser.h"
+#include "libs/tinyxml2.h"
 
 void helpMessage();
 
@@ -23,9 +24,7 @@ int main(int argc, char*argv[]) {
 	// 	if (argument == "--help") {
 	// 		helpMessage();
 	// 		return 0;
-	// 	}
-
-	// 	if (argument == "--cropwindow")
+	// 	} else if (argument == "--cropwindow")
 	// 		OPTIONS.cropwindow = std::string(argv[++arg]);
 	// 	else if (argument == "--outfile")
 	// 		OPTIONS.outfile = std::string(argv[++arg]);
@@ -33,8 +32,16 @@ int main(int argc, char*argv[]) {
 	// 		OPTIONS.quick = true;
 	// }
 
+	std::string str = "scene_01.xml";
+	char* path = strcpy(new char[str.length()+1], str.c_str());
 
-	
+	tinyxml2::XMLDocument* doc = Parser::findDocument(path);
+	tinyxml2::XMLElement* rootElement = Parser::getRootElement(doc);
+
+	ParamSet* paramset = Parser::getFilmAttr(rootElement);
+	std::cout << paramset->getAttributeAsString("type") << std::endl;
+	std::cout << paramset->getAttributeAsDouble("x_res") << std::endl;
+	std::cout << paramset->getAttributeAsDouble("y_res") << std::endl;
 
 	return 0;
 }
