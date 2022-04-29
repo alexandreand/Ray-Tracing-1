@@ -1,4 +1,4 @@
-#include "paranset.h"
+#include "../include/paramset.h"
 
 #include <iostream>
 #include <string>
@@ -31,5 +31,5 @@ std::string ParamSet::getAttributeAsString(std::string name){
 
 
 void ParamSet::setAttribute(std::string name, std::string value){
-    this->attributes->insert(name, value);
+    this->attributes->insert(std::pair<std::string,std::string>(name, value));
 };

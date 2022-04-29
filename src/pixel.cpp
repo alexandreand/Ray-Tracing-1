@@ -1,4 +1,4 @@
-#include "../include/Pixel.h"
+#include "../include/pixel.h"
 #include <string>
 #include <cmath>
 

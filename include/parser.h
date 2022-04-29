@@ -1,8 +1,16 @@
 #include "paramset.h"
-#include "tinyxml2.h"
+#include "../libs/tinyxml2.h"
 
-tinyxml2::XMLDocument* findDocument(char* path);
+namespace Parser{
 
-tinyxml2::XMLElement* getRootElement(tinyxml2::XMLDocument* doc);
+    tinyxml2::XMLDocument* findDocument(char* path);
 
-ParamSet* getFilmAttr(tinyxml2::XMLElement* rootElement);
+    tinyxml2::XMLElement* getRootElement(tinyxml2::XMLDocument* doc);
+
+    ParamSet* getFilmAttr(tinyxml2::XMLElement* rootElement);
+
+    tinyxml2::XMLElement* getWorldAttr(tinyxml2::XMLElement* rootElement);
+
+    ParamSet* getBackgroundAttr(tinyxml2::XMLElement* rootElement);
+
+}
