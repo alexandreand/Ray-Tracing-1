@@ -1,4 +1,3 @@
-#include "Background.h"
 #include "pixel.h"
 #include "camera.h"
 
@@ -8,7 +7,7 @@ public:
     Pixel colors[4];
     Camera camera;
 
-    Background(Pixel pixel_00, Pixel pixel_01, Pixel pixel_10, Pixel pixel_11);
+    Background(Pixel pixel_00, Pixel pixel_01, Pixel pixel_10, Pixel pixel_11, Camera camera);
 
     Pixel sample(float i, float j);
     Pixel interpolacaoX(Pixel pixel_0, Pixel pixel_1, float i);

@@ -1,8 +1,9 @@
+#include "Background.h"
 
 Pixel Background::sample(float i, float j)
 {
     return interpolacaoBilinear();
-}
+};
 
 Background::Background(Pixel pixel_00, Pixel pixel_01, Pixel pixel_10, Pixel pixel_11, Camera camera)
 {

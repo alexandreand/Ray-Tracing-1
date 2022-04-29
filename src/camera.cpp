@@ -1,9 +1,6 @@
 #include "../include/camera.h"
 
-Camera::Camera()
+Camera::Camera(Film film)
 {
-}
-
-Camera::~Camera()
-{
-}
+    this->film = film;
+};

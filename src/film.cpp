@@ -26,10 +26,6 @@ void Film::setPixel(int x, int y, Pixel *pixel)
     buffer[x][y] = *pixel;
 };
 
-void Filme::write_image()
-{
-}
-
 int Film::getWidth()
 {
     return this->width;

@@ -1,11 +1,15 @@
 #include "../include/api.h"
 #include "../include/background.h"
 #include "../include/camera.h"
+#include "../include/film.h"
 
 int render()
 {
-	Camera camera = Camera();
-	Background background = Background(Pixel pixel_00, Pixel pixel_01, Pixel pixel_10, Pixel pixel_11);
+	int prov1;
+
+	Film film = Film(prov1, prov1);
+	Camera camera = Camera(film);
+	Background background = Background(pixel_00, pixel_01, pixel_10, pixel_11);
 
 	auto h = camera.film.getHeight();
 	auto w = camera.film.getWidth();
@@ -14,9 +18,9 @@ int render()
 	{
 		for (int i = 0; i < w; ++i)
 		{
-			auto color = background.sample(float(i) / float(w), float(j) / float(h));
-			camera.film.add(Point2{i, j}, color);
+			Pixel pixel = background.sample(float(i) / float(w), float(j) / float(h));
+			camera.film.setPixel(j, i, &pixel);
 		}
 	}
-	camera.film.write_image();
+	camera.film.toString();
 }

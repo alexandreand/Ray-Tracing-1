@@ -6,8 +6,6 @@ private:
     /* data */
 public:
     Film film;
-    Camera();
-    ~Camera();
 
-    void add(??, Pixel);
+    Camera(Film film);
 };

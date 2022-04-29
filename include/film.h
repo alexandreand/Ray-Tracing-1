@@ -18,7 +18,7 @@ public:
     ~Film();
 
     void setPixel(int x, int y, Pixel *pixel);
-    void write_image();
+
     int getWidth();
     int getHeight();
 
